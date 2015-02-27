@@ -1,1 +1,23 @@
 <h3>Hooks</h3>
+
+<%= link_to 'Add Hook', new_webhook_path, class: 'btn btn-default' %>
+
+<table class="table" style="margin-top: 20px;">
+  <tr>
+    <th>Name</th>
+    <th>Slack Incoming Hook</th>
+    <th></th>
+  </tr>
+  <% @webhooks.each do |webhook| %>
+  <tr>
+    <td><%= webhook.name %></td>
+    <td>
+      <%= webhook.slack_incoming_hook %>
+    </td>
+    <td>
+      <%= link_to 'Edit', edit_webhook_path(webhook), class: '' %>
+      <%= link_to 'Destory', webhook, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </td>
+  </tr>
+  <% end %>
+</table>
