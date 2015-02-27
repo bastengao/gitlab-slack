@@ -1,4 +1,4 @@
 # gitlab-slack
 
-Push notification to slack throught gitlab webhook.
+Push GitLab events to Slack through webhook.
 
