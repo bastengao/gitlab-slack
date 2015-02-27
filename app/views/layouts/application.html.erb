@@ -14,8 +14,9 @@
   <div class="row">
     <div class="col-md-12">
 
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+      <% flash.each do |key, value| %>
+        <p class="alert alert-<%= flash_to_alert key %>"><%= value %></p>
+      <% end %>
 
       <%= yield %>
     </div>
