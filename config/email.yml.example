@@ -1,0 +1,18 @@
+default: &default
+  address: "example.host"
+  port: 25
+  authentication: 'login'
+  user_name: "TODO"
+  password: "TODO"
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default
