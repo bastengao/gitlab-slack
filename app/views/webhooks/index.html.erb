@@ -10,7 +10,9 @@
   </tr>
   <% @webhooks.each do |webhook| %>
   <tr>
-    <td><%= webhook.name %></td>
+    <td>
+      <%= link_to webhook.name, webhook %>
+    </td>
     <td>
       <%= webhook.slack_incoming_hook %>
     </td>
