@@ -37,6 +37,7 @@ gem 'slack-notifier'
 # gem 'capistrano-rails', group: :development
 
 gem 'bootstrap-sass', '3.3.1.0'
+gem 'bootstrap-navbar'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-fontawesome'

@@ -1,0 +1,15 @@
+<%= navbar style: 'margin-bottom: 5px;' do %>
+    <%= navbar_header brand: 'GitLab Slack', brank_link: root_url %>
+    <%= navbar_collapse do %>
+        <%= navbar_group align: 'right' do %>
+            <% if user_signed_in? %>
+                <%= navbar_text current_user.email %>
+                <%= navbar_item 'Setting', edit_user_registration_path %>
+                <%= navbar_item 'Logout', destroy_user_session_path, {}, 'data-method' => :delete %>
+            <% else %>
+                <%= navbar_item "Login", new_user_session_path %>
+                <%= navbar_item "Sign up", new_user_registration_path %>
+            <% end %>
+        <% end %>
+    <% end %>
+<% end %>
