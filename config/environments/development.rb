@@ -40,8 +40,4 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
-  email_config = YAML.load_file(File.join(Rails.root, 'config/email.yml'))[Rails.env].deep_symbolize_keys
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = email_config
 end

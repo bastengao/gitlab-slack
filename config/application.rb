@@ -25,8 +25,10 @@ module GitlabSlack
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    email_config = YAML.load_file(File.join(Rails.root, 'config/email.yml'))[Rails.env].deep_symbolize_keys
+    mailer_config = ENV.keys.select {|key| key.start_with?('RAILS_MAILER')}
+                        .map {|key| [key.tr('RAILS_MAILER_','').downcase, ENV[key]]}
+
     config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = email_config
+    config.action_mailer.smtp_settings = Hash[ mailer_config ]
   end
 end
