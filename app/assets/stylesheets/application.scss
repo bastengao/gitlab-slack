@@ -10,6 +10,11 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require_self
  */
+
+$grid-gutter-width:                               30px !default;
+$container-large-desktop: (940px + $grid-gutter-width) !default;
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+

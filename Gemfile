@@ -36,6 +36,12 @@ gem 'slack-notifier'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'bootstrap-sass', '3.3.1.0'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-fontawesome'
+end
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
