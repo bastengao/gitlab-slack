@@ -1,0 +1,14 @@
+<p>
+  Name:
+  <%= @webhook.name %>
+</p>
+
+<p>
+  Slack incoming hook:
+  <%= @webhook.slack_incoming_hook %>
+</p>
+
+<p>
+  Hook for GitLab:
+  <%= gitlab_hook_url(ScatterSwap.hash(@webhook.id)) %>
+</p>

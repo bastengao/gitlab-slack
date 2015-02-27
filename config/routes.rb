@@ -5,8 +5,10 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :webhooks do
-    post :hook, on: :member
+    # post :hook, on: :member
   end
+
+  post '/webhooks/hook/:id' => 'webhooks#hook', as: :gitlab_hook
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

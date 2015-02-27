@@ -2,10 +2,13 @@ class WebhooksController < ApplicationController
   skip_before_filter :verify_authenticity_token, only: [:hook]
 
   before_action :authenticate_user!, except: :hook
-  before_action :set_webhook, only: [:edit, :update, :destroy]
+  before_action :set_webhook, only: [:show, :edit, :update, :destroy]
 
   def index
     @webhooks = current_user.webhooks
+  end
+
+  def show
   end
 
   def new
@@ -44,9 +47,9 @@ class WebhooksController < ApplicationController
   end
 
   def hook
-    @webhook = Webhook.find params[:id]
+    id = ScatterSwap.reverse_hash(params[:id])
+    @webhook = Webhook.find id
     post_data = request.raw_post
-    # logger.info post_data
 
     hook_msg = GitlabHookMessage.new JSON.parse(post_data)
 
