@@ -15,7 +15,13 @@
     <div class="col-md-12">
 
       <% flash.each do |key, value| %>
-        <p class="alert alert-<%= flash_to_alert key %>"><%= value %></p>
+        <p class="alert alert-<%= flash_to_alert key %>">
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <%= value %>
+        </p>
       <% end %>
 
       <%= yield %>

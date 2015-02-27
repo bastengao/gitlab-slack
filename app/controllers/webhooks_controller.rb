@@ -1,5 +1,10 @@
-class WebhookController < ApplicationController
-  skip_before_filter :verify_authenticity_token
+class WebhooksController < ApplicationController
+  skip_before_filter :verify_authenticity_token, only: [:update]
+
+  before_action :authenticate_user!, except: :update
+
+  def index
+  end
 
   def update
     post_data = request.raw_post
