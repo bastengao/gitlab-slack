@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :webhooks do
-    # post :hook, on: :member
+    get :test, on: :member
   end
 
   post '/webhooks/hook/:id' => 'webhooks#hook', as: :gitlab_hook

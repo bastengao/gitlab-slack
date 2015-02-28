@@ -2,7 +2,7 @@ class WebhooksController < ApplicationController
   skip_before_filter :verify_authenticity_token, only: [:hook]
 
   before_action :authenticate_user!, except: :hook
-  before_action :set_webhook, only: [:show, :edit, :update, :destroy]
+  before_action :set_webhook, only: [:show, :edit, :update, :destroy, :test]
 
   def index
     @webhooks = current_user.webhooks
@@ -58,6 +58,12 @@ class WebhooksController < ApplicationController
     notifier.ping post_data.force_encoding('utf-8')
 
     render nothing: true
+  end
+
+  def test
+    @webhook = Webhook.find params[:id]
+    notifier = Slack::Notifier.new @webhook.slack_incoming_hook
+    notifier.ping 'Hello Slack!', icon_emoji: ":trollface:"
   end
 
   private
