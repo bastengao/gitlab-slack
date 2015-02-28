@@ -14,4 +14,12 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
-//= require_tree .
+//= require zeroclipboard
+//= require_self
+
+
+$(function(){
+  $('.copy-btn').each(function(){
+    new ZeroClipboard(this)
+  });
+});

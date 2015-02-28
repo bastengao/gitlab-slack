@@ -16,7 +16,7 @@
     <td>
       <%= gitlab_hook_url(webhook.hook_id) %>
 
-      <a href="#">Copy it</a>
+      <a href="javascript: void(0);" class="copy-btn" data-clipboard-text="<%= gitlab_hook_url(webhook.hook_id) %>">Copy it</a>
     </td>
     <td>
       <%= link_to 'Edit', edit_webhook_path(webhook), class: '' %>

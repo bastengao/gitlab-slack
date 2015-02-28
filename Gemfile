@@ -43,6 +43,7 @@ gem 'bootstrap-navbar'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-fontawesome'
+  gem 'rails-assets-zeroclipboard'
 end
 
 gem 'rails_12factor', group: "production"
