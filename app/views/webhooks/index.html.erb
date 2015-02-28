@@ -5,7 +5,7 @@
 <table class="table" style="margin-top: 20px;">
   <tr>
     <th>Name</th>
-    <th>Slack Incoming Hook</th>
+    <th>Hook For GitLab</th>
     <th></th>
   </tr>
   <% @webhooks.each do |webhook| %>
@@ -14,7 +14,9 @@
       <%= link_to webhook.name, webhook %>
     </td>
     <td>
-      <%= webhook.slack_incoming_hook %>
+      <%= gitlab_hook_url(webhook.hook_id) %>
+
+      <a href="#">Copy it</a>
     </td>
     <td>
       <%= link_to 'Edit', edit_webhook_path(webhook), class: '' %>
