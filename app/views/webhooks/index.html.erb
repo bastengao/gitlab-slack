@@ -19,7 +19,7 @@
       <a href="javascript: void(0);" class="copy-btn" data-clipboard-text="<%= gitlab_hook_url(webhook.hook_id) %>">Copy it</a>
     </td>
     <td>
-      <%= link_to 'Edit', edit_webhook_path(webhook), class: '' %>
+      <%= link_to 'Edit', edit_webhook_path(webhook), class: 'btn btn-default' %>
       <%= link_to 'Destory', webhook, method: :delete, data: { confirm: 'Are you sure?' } %>
     </td>
   </tr>
