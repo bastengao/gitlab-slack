@@ -48,14 +48,16 @@ class WebhooksController < ApplicationController
 
   def hook
     id = ScatterSwap.reverse_hash(params[:id])
-    @webhook = Webhook.find id
-    post_data = request.raw_post
 
-    hook_msg = GitlabHookMessage.new JSON.parse(post_data)
+    logger.info request.raw_post
+
+    @webhook = Webhook.find id
+    post_data = JSON.parse(request.raw_post).deep_symbolize_keys
+
+    hook_msg = GitlabHookMessage.new post_data.merge({ project_name: 'test', project_url: 'test_url'})
 
     notifier = Slack::Notifier.new @webhook.slack_incoming_hook
-    notifier.ping 'push ' + hook_msg.type #, icon_url: hook_msg['user']['avatar_url']
-    notifier.ping post_data.force_encoding('utf-8')
+    notifier.ping hook_msg.pretext, attachments: hook_msg.attachments
 
     render nothing: true
   end

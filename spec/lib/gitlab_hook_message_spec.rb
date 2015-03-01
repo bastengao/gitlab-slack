@@ -159,10 +159,14 @@ describe GitlabHookMessage do
     MSG
   end
 
-  let(:push_msg) { GitlabHookMessage.new(JSON.parse(push_data)) }
-  let(:tag_msg) { GitlabHookMessage.new(JSON.parse(tag_data)) }
-  let(:issue_msg) { GitlabHookMessage.new(JSON.parse(issue_data)) }
-  let(:merge_request_msg) { GitlabHookMessage.new(JSON.parse(merge_request_data)) }
+  def json_to_msg(json)
+    GitlabHookMessage.new JSON.parse(json).deep_symbolize_keys
+  end
+
+  let(:push_msg) { json_to_msg(push_data) }
+  let(:tag_msg) { json_to_msg(tag_data) }
+  let(:issue_msg) { json_to_msg(issue_data) }
+  let(:merge_request_msg) { json_to_msg(merge_request_data) }
 
   it 'message type' do
     expect(push_msg.type).to eq 'push'
