@@ -160,7 +160,7 @@ describe GitlabHookMessage do
   end
 
   def json_to_msg(json)
-    GitlabHookMessage.new JSON.parse(json).deep_symbolize_keys
+    GitlabHookMessage.new JSON.parse(json).deep_symbolize_keys, nil
   end
 
   let(:push_msg) { json_to_msg(push_data) }

@@ -10,18 +10,27 @@ class GitlabHookMessage
   attr_reader :ref
   attr_reader :username
 
-  def initialize(data)
+  def initialize(data, gitlab_client)
     @data = data
 
-    if type.in? %w[push tag]
+    case type
+    when 'push', 'tag'
       params = @data
+      @project_id = params.fetch(:project_id)
       @after = params.fetch(:after)
       @before = params.fetch(:before)
       @commits = params.fetch(:commits, [])
-      @project_name = params.fetch(:project_name)
-      @project_url = params.fetch(:project_url)
       @ref = params.fetch(:ref).gsub('refs/heads/', '')
       @username = params.fetch(:user_name)
+    when 'issue'
+      @project_id = @data.fetch(:object_attributes).fetch(:project_id)
+    end
+
+
+    unless merge_request?
+      project = gitlab_client.project(@project_id)
+      @project_name = project.name_with_namespace
+      @project_url = project.web_url
     end
   end
 
@@ -39,7 +48,8 @@ class GitlabHookMessage
   end
 
   def attachments
-    return [] if issue? || merge_request?
+    return [] if issue?
+    return merge_request_attachment if merge_request?
     return [] if new_branch? || removed_branch?
 
     commit_message_attachments
@@ -68,11 +78,11 @@ class GitlabHookMessage
   end
 
   def issue_message
-    "#{@data[:user][:name]} #{@data[:object_attributes][:action]} issue #{issue_link}"
+    "#{@data[:user][:name]} #{@data[:object_attributes][:action]} issue #{issue_link} of #{project_link}"
   end
 
   def merge_request
-    "#{@data[:user][:name]} #{@data[:object_attributes][:action]} merge request #{merge_request_link}"
+    "#{@data[:user][:name]} #{attributes[:action]} merge request *#{attributes[:title]}*"
   end
 
   def new_branch_message
@@ -87,6 +97,15 @@ class GitlabHookMessage
     "#{username} pushed to branch #{branch_link} of #{project_link} (#{compare_link})"
   end
 
+  def merge_request_attachment
+    attachment \
+    <<-EOF
+from #{attributes[:source_branch]} to #{attributes[:target_branch]}
+state: #{attributes[:state]}
+#{attributes[:description].truncate 10}
+    EOF
+  end
+
   def commit_messages
     commits.each_with_object('') do |commit, str|
       str << compose_commit_message(commit)
@@ -97,6 +116,10 @@ class GitlabHookMessage
     [{ text: format(commit_messages), color: attachment_color }]
   end
 
+  def attachment(message)
+    [{ text: format(message), color: attachment_color }]
+  end
+
   def compose_commit_message(commit)
     author = commit.fetch(:author).fetch(:name)
     id = commit.fetch(:id)[0..8]
@@ -104,6 +127,10 @@ class GitlabHookMessage
     url = commit.fetch(:url)
 
     "[#{id}](#{url}): #{message} - #{author}\n"
+  end
+
+  def attributes
+    @data[:object_attributes]
   end
 
   def issue?

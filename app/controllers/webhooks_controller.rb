@@ -49,12 +49,11 @@ class WebhooksController < ApplicationController
   def hook
     id = ScatterSwap.reverse_hash(params[:id])
 
-    logger.info request.raw_post
-
     @webhook = Webhook.find id
-    post_data = JSON.parse(request.raw_post).deep_symbolize_keys
+    gitlab_client = @webhook.user.gitlab_client
 
-    hook_msg = GitlabHookMessage.new post_data.merge({ project_name: 'test', project_url: 'test_url'})
+    post_data = JSON.parse(request.raw_post).deep_symbolize_keys
+    hook_msg = GitlabHookMessage.new post_data, gitlab_client
 
     notifier = Slack::Notifier.new @webhook.slack_incoming_hook
     notifier.ping hook_msg.pretext, attachments: hook_msg.attachments

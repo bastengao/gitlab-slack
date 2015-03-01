@@ -21,4 +21,8 @@ class User < ActiveRecord::Base
       logger.info auth.info.image # assuming the user model has an image
     end
   end
+
+  def gitlab_client
+    Gitlab.client(endpoint: 'https://gitlab.com/api/v3', private_token: self.private_token)
+  end
 end

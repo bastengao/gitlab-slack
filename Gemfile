@@ -32,6 +32,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'rest-client'
 gem 'scatter_swap'
 gem 'slack-notifier'
+gem 'gitlab'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
